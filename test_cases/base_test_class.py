@@ -19,7 +19,7 @@ class Test_Base_test_Class:
     page_title_h3 = "h3"
 
     def launch_page(self, page):
-        headless = os.getenv("HEADLESS", "false").lower() == "true"
+        headless = os.getenv("HEADLESS", "false").lower() == "false"
 
         options = webdriver.ChromeOptions()
         if headless:
