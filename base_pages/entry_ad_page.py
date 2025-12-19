@@ -34,6 +34,6 @@ class Entry_Ad_Page(Base_Class):
         footer = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, self.modal_footer)))
 
         # Sometimes headless needs scroll into view before click
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", footer)
+        #self.driver.execute_script("arguments[0].scrollIntoView(true);", footer)
 
         footer.click()
