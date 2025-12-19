@@ -1,4 +1,5 @@
 import os
+import platform
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -19,15 +20,24 @@ class Test_Base_test_Class:
     page_title_h3 = "h3"
 
     def launch_page(self, page):
-        headless = os.getenv("HEADLESS", "false").lower() == "false"
+        # GitHub Actions automatically sets CI=true
+        is_ci = os.getenv("CI", "false").lower() == "true"
+        headless = os.getenv("HEADLESS", "false").lower() == "true" or is_ci
 
         options = webdriver.ChromeOptions()
-        if headless:
-            # Recommended for CI (GitHub Actions)
-            options.add_argument("--headless=new")
+
+        # Always good defaults
+        options.add_argument("--window-size=1920,1080")
+
+        # Linux/GitHub Actions stability flags
+        if platform.system() == "Linux" or is_ci:
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
-            options.add_argument("--window-size=1920,1080")
+            options.add_argument("--remote-debugging-port=9222")
+            options.add_argument("--user-data-dir=/tmp/chrome-user-data")
+
+        if headless:
+            options.add_argument("--headless=new")
 
         self.driver = webdriver.Chrome(options=options)
 
