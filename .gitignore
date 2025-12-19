@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+
+# Selenium
+screenshots/
+reports/
+
+# OS
+.DS_Store
+Thumbs.db
