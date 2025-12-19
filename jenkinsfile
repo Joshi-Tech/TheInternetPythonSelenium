@@ -1,18 +1,16 @@
 pipeline {
   agent any
 
-  environment {
-    PATH+EXTRA = "/opt/homebrew/bin:/usr/local/bin"
-  }
-
   stages {
     stage('Verify Python on Jenkins agent') {
       steps {
         sh '''
+          export PATH="/opt/homebrew/bin:/usr/local/bin:/bin:/usr/bin:$PATH"
           echo "PATH=$PATH"
-          which python3 || true
+          command -v sh
+          command -v python3 || true
           python3 --version
-          which pip3 || true
+          command -v pip3 || true
           pip3 --version
         '''
       }
