@@ -28,7 +28,12 @@ class Entry_Ad_Page(Base_Class):
         return self.driver.find_element(By.CSS_SELECTOR, self.modal_text).text
 
     def click_modal_footer(self):
-        WebDriverWait(self.driver, 2).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, self.modal_footer))
-        )
-        self.driver.find_element(By.CSS_SELECTOR, self.modal_footer).click()
+        wait = WebDriverWait(self.driver, 10)
+
+        # Wait for the modal footer element to be clickable
+        footer = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, self.modal_footer)))
+
+        # Sometimes headless needs scroll into view before click
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", footer)
+
+        footer.click()
