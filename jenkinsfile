@@ -1,5 +1,10 @@
 pipeline {
   agent any
+
+  environment {
+    PATH+EXTRA = "/opt/homebrew/bin:/usr/local/bin"
+  }
+
   stages {
     stage('Verify Python on Jenkins agent') {
       steps {
