@@ -1,19 +1,79 @@
 pipeline {
   agent any
 
+  options {
+    timestamps()
+  }
+
   stages {
-    stage('Verify Python on Jenkins agent') {
+    stage('Checkout') {
+      steps { checkout scm }
+    }
+
+    stage('Set PATH & Verify Python') {
       steps {
-        sh '''
+        sh '''#!/bin/bash
+          set -e
           export PATH="/opt/homebrew/bin:/usr/local/bin:/bin:/usr/bin:$PATH"
-          echo "PATH=$PATH"
-          command -v sh
-          command -v python3 || true
           python3 --version
-          command -v pip3 || true
           pip3 --version
         '''
       }
+    }
+
+    stage('Create venv') {
+      steps {
+        sh '''#!/bin/bash
+          set -e
+          export PATH="/opt/homebrew/bin:/usr/local/bin:/bin:/usr/bin:$PATH"
+
+          python3 -m venv .venv
+          source .venv/bin/activate
+          python -m pip install --upgrade pip
+        '''
+      }
+    }
+
+    stage('Install dependencies') {
+      steps {
+        sh '''#!/bin/bash
+          set -e
+          source .venv/bin/activate
+
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
+          # If you use pyproject.toml instead of requirements.txt, uncomment:
+          # pip install -e .
+        '''
+      }
+    }
+
+    stage('Run tests') {
+      steps {
+        sh '''#!/bin/bash
+          set -e
+          source .venv/bin/activate
+
+          # install test tools if not already in requirements.txt
+          pip install -q pytest
+
+          # create folder for reports
+          mkdir -p test-results
+
+          # run
+          pytest -q --junitxml=test-results/junit.xml
+        '''
+      }
+    }
+  }
+
+  post {
+    always {
+      junit allowEmptyResults: true, testResults: 'test-results/junit.xml'
+      archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true
+      cleanWs()
     }
   }
 }
