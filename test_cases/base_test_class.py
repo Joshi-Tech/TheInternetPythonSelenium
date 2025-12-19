@@ -1,3 +1,5 @@
+import os
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -17,17 +19,29 @@ class Test_Base_test_Class:
     page_title_h3 = "h3"
 
     def launch_page(self, page):
-        self.driver = webdriver.Chrome()
+        headless = os.getenv("HEADLESS", "false").lower() == "false"
+
+        options = webdriver.ChromeOptions()
+        if headless:
+            # Recommended for CI (GitHub Actions)
+            options.add_argument("--headless=new")
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--window-size=1920,1080")
+
+        self.driver = webdriver.Chrome(options=options)
+
         if page == "login_page":
             self.driver.get(self.login_page_url)
         elif page == "digest_auth":
             self.driver.get(self.digest_auth_url)
         else:
             self.driver.get(self.page_url)
+
         return self.driver
 
     def get_page_heading(self):
-       return self.driver.find_element(By.CSS_SELECTOR,self.page_title_h3).text
+        return self.driver.find_element(By.CSS_SELECTOR, self.page_title_h3).text
 
     # def launch_page(self, page,driver):
     #     #self.driver = webdriver.Chrome()
