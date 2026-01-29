@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from base_pages.base_class import Base_Class
 
 
-class Drag_And_Drop_page (Base_Class):
+class Drag_And_Drop_page(Base_Class):
     column_a = "column-a"
     column_b = "column-b"
 
@@ -13,6 +13,7 @@ class Drag_And_Drop_page (Base_Class):
 
     """Selenium’s native ActionChains cannot handle in modern websites. 
     JavaScript HTML5 Drag & Drop Simulation is most reliable. Below is the code"""
+
     def drop_column(self):
         js_drag_and_drop = """
             function simulateDragDrop(sourceNode, destinationNode) {
@@ -58,4 +59,6 @@ class Drag_And_Drop_page (Base_Class):
 
         column_a = self.driver.find_element(By.ID, self.column_a)
         column_b = self.driver.find_element(By.ID, self.column_b)
+        self.logger.info(f"Heading text captured: {column_a.text}")
+        self.logger.info(f"Heading text captured: {column_b.text}")
         self.driver.execute_script(js_drag_and_drop, column_a, column_b)

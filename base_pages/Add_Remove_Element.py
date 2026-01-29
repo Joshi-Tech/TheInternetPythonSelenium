@@ -12,12 +12,11 @@ class Add_Remove_Element_Page(Base_Class):
         super().__init__(driver)
         self.driver = driver
 
-    # def get_heading(self):
-    #     heading_text = self.driver.find_element(By.XPATH, self.heading).text
-    #     return heading_text
-
     def click_add_element_btn(self):
+        self.logger.info(f"Add Element button clicked")
         self.driver.find_element(By.CSS_SELECTOR, self.add_element_btn).click()
 
     def is_delete_btn_displayed(self):
-        return self.driver.find_element(By.CSS_SELECTOR, self.delete_btn).is_displayed()
+        add_remove_element = self.driver.find_element(By.CSS_SELECTOR, self.add_element_btn)
+        self.logger.info(f"Add/Remove button displayed: {add_remove_element}")
+        return add_remove_element.is_displayed()

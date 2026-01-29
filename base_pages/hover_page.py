@@ -16,7 +16,9 @@ class Hover_Page(Base_Class):
         self.driver = driver
 
     def get_page_text(self):
-        return self.driver.find_element(By.CSS_SELECTOR, self.page_text).text
+        page_text_element = self.driver.find_element(By.CSS_SELECTOR, self.page_text)
+        self.logger.info(f"Page text can be seen: {page_text_element.text}")
+        return page_text_element.text
 
     def move_object(self, user: int):
         target_user = self.driver.find_elements(By.CSS_SELECTOR, self.users)[user]
@@ -25,5 +27,5 @@ class Hover_Page(Base_Class):
 
         caption = target_user.find_element(By.CSS_SELECTOR, self.user_text)
         WebDriverWait(self.driver, 5).until(EC.visibility_of(caption))
-
+        self.logger.info(f"Object can be moved: {caption}")
         return caption.text.strip()

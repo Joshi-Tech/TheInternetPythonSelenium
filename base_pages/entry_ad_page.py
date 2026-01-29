@@ -7,7 +7,7 @@ from base_pages.base_class import Base_Class
 
 class Entry_Ad_Page(Base_Class):
     modal_title = ".modal-title > h3"
-    modal_text = ".modal-body > p"
+    modal_text = "[class='modal-body']>p"
     modal_footer = ".modal-footer>p"
 
     def __init__(self, driver):
@@ -19,13 +19,17 @@ class Entry_Ad_Page(Base_Class):
         WebDriverWait(self.driver, 2).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, self.modal_title))
         )
-        return self.driver.find_element(By.CSS_SELECTOR, self.modal_title).text
+        modal_title = self.driver.find_element(By.CSS_SELECTOR, self.modal_title)
+        self.logger.info(f"Modal header text can be seen: {modal_title.text}")
+        return modal_title.text
 
     def get_modal_main_text(self):
         WebDriverWait(self.driver, 2).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, self.modal_text))
         )
-        return self.driver.find_element(By.CSS_SELECTOR, self.modal_text).text
+        modal_text = self.driver.find_element(By.CSS_SELECTOR, self.modal_text)
+        self.logger.info(f"Modal main text can be seen: {modal_text.text}")
+        return modal_text.text
 
     def click_modal_footer(self):
         wait = WebDriverWait(self.driver, 10)
@@ -35,5 +39,5 @@ class Entry_Ad_Page(Base_Class):
 
         # Sometimes headless needs scroll into view before click
         self.driver.execute_script("arguments[0].scrollIntoView(true);", footer)
-
+        self.logger.info(f"Footer being clicked: {footer}")
         footer.click()
