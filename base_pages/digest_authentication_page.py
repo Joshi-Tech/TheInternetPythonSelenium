@@ -14,5 +14,5 @@ class Digest_authentication_page:
 
     def get_page_auth_text(self):
         auth_text: str = self.driver.find_element(By.CSS_SELECTOR, self.page_text_element).text
-        self.logger.info(f"Heading text captured: {auth_text}")
+        self.logger.info(f"Auth text can be seen: {auth_text}")
         return auth_text

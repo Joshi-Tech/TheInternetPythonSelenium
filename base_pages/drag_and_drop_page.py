@@ -59,6 +59,6 @@ class Drag_And_Drop_page(Base_Class):
 
         column_a = self.driver.find_element(By.ID, self.column_a)
         column_b = self.driver.find_element(By.ID, self.column_b)
-        self.logger.info(f"Heading text captured: {column_a.text}")
-        self.logger.info(f"Heading text captured: {column_b.text}")
+        self.logger.info(f"Column text 'A' can be seen: {column_a.text}")
+        self.logger.info(f"Column text 'B' can be seen: {column_b.text}")
         self.driver.execute_script(js_drag_and_drop, column_a, column_b)
