@@ -34,4 +34,3 @@ jobs:
           HEADLESS: "true"
         run: |
           pytest -q
-
