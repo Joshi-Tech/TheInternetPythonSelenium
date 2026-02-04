@@ -11,6 +11,6 @@ class Checkboxes_page(Base_Class):
         super().__init__(driver)
 
     def click_checkbox(self):
-        checkbox = self.driver.find_element(By.CSS_SELECTOR, self.checkbox)
+        checkbox = self.driver.find_elements(By.CSS_SELECTOR, self.checkbox)
         self.logger.info(f"Checkbox clicked: {checkbox}")
         return checkbox
