@@ -4,13 +4,6 @@ import platform
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-
-# @pytest.fixture
-# def driver():
-#     driver = DriverFactory.get_driver("chrome")
-#     yield driver
-#     driver.quit()
-
 class Test_Base_test_Class:
     page_url = "https://the-internet.herokuapp.com"
     login_page_url = "https://the-internet.herokuapp.com/login"
@@ -52,20 +45,3 @@ class Test_Base_test_Class:
 
     def get_page_heading(self):
         return self.driver.find_element(By.CSS_SELECTOR, self.page_title_h3).text
-
-    # def launch_page(self, page,driver):
-    #     #self.driver = webdriver.Chrome()
-    #     if page == "login_page":
-    #         driver().get(self.login_page_url)
-    #     elif page == "digest_auth":
-    #         self.driver.get(self.digest_auth_url)
-    #     elif page == "geo_location":
-    #         options = Options()
-    #         options.add_experimental_option("prefs", {
-    #             "profile.default_content_setting_values.geolocation": 1  # 1 = Allow
-    #         })
-    #         self.driver = webdriver.Chrome(options)
-    #         self.driver.get(self.page_url)
-    #     else:
-    #         self.driver.get(self.page_url)
-    #     return self.driver

@@ -8,7 +8,7 @@ class Test_Home_Page:
     def test_home_page_heading(self):
         self.driver = Test_Base_test_Class().launch_page("home_page")
         home_page_heading = self.driver.find_element(By.CSS_SELECTOR, "h1").text
-        page_heading = "Welcome to the-internet"
+        page_heading = "Welcomes to the-internet"
         if home_page_heading == page_heading:
             assert True
             self.driver.close()
